@@ -1,0 +1,13 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build . -t ghcr.io/benc-uk/act-runner
+      - run: |
+          echo ${{ secrets.REGISTRY_PASSWORD }} | docker login ghcr.io -u benc-uk --password-stdin
+          docker push ghcr.io/benc-uk/act-runner:latest
